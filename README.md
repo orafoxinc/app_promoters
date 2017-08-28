@@ -34,7 +34,7 @@ Okay seems like you integrated the library in your project but how do you use it
 Load native library in your activity :
 
 ```
- new AppPromotion(this,getPackageName(),5);
+ new AppPromoters(this,getPackageName(),5);
  ```
  
 
