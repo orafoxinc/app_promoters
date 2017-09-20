@@ -22,7 +22,7 @@ Step 2. Add the dependency
 
 ```
 dependencies {
-       compile 'com.github.ervishu83:app_promoters:1.6'
+       compile 'com.github.ervishu83:app_promoters:1.7'
 }
 ```
 
