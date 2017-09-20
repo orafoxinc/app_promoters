@@ -1,7 +1,10 @@
 package com.example.apppromoters;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.apppromoters.R;
@@ -23,6 +27,9 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,7 +44,7 @@ public class AppPromoters {
     private static AsyncHttpClient client = new AsyncHttpClient();
     private Activity mActivity;
 
-    private String appName, appDesc, appLogo, appPackageName,brnColorCode,btnText;
+    private String appName, appDesc, appLogo, appPackageName, brnColorCode, btnText;
     private int popupInterval;
     private Handler h = new Handler();
     private Runnable runnable;
@@ -48,16 +55,6 @@ public class AppPromoters {
         this.popupInterval = popupInterval;
 
         startAppPromotion(packageName);
-    }
-
-    public static boolean isAppInstalled(Activity mActivity,String packageName) {
-        try {
-            mActivity.getPackageManager().getApplicationInfo(packageName, 0);
-            return true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
     }
 
     private void startAppPromotion(final String packageName) {
@@ -85,25 +82,12 @@ public class AppPromoters {
                     JSONObject mainObj = new JSONObject(response.toString());
 
                     if (mainObj.getInt("error") == 0) {
-//                        Log.d(TAG, "---------------- error 0 --------");
-//                        JSONObject promotionObj = mainObj.getJSONObject("promote_app");
-//                        if (promotionObj.length() != 0) {
-//                            appName = promotionObj.getString("title");
-//                            appDesc = promotionObj.getString("desc");
-//                            appLogo = promotionObj.getString("image_path");
-//                            appPackageName = promotionObj.getString("build_id");
-//                            brnColorCode = promotionObj.getString("color");
-//                            btnText = promotionObj.getString("button");
-//                            showUserContactPopup();
-//                            isAppInstalled = isAppInstalled(mActivity,appPackageName);
-//                        }
                         JSONArray promotionArr = mainObj.getJSONArray("promote_apps");
                         if (promotionArr.length() != 0) {
 
-                            for(int i =0 ;i <promotionArr.length() ; i++){
-                               JSONObject newObj = promotionArr.getJSONObject(i);
+                            for (int i = 0; i < promotionArr.length(); i++) {
+                                JSONObject newObj = promotionArr.getJSONObject(i);
                                 JSONObject ptomotObj = newObj.getJSONObject("PromoteApp");
-//                                Log.d(TAG, "---------------- this is response : " + newObj.toString());
 
                                 appName = ptomotObj.getString("title");
                                 appDesc = ptomotObj.getString("desc");
@@ -112,10 +96,10 @@ public class AppPromoters {
                                 brnColorCode = ptomotObj.getString("color");
                                 btnText = ptomotObj.getString("button");
 
-                                isAppInstalled = isAppInstalled(mActivity,appPackageName);
+                                isAppInstalled = isAppInstalled(mActivity, appPackageName);
 //                                Log.e(TAG, "---------------- isAppInstalled : " + isAppInstalled);
 
-                                if(!isAppInstalled) {
+                                if (!isAppInstalled) {
                                     showAppPromotionPopup();
                                     return;
                                 }
@@ -153,16 +137,16 @@ public class AppPromoters {
 
         tvAppName.setText(appName);
         tvAppDesc.setText(appDesc);
-        if(appLogo.equals(""))
+        if (appLogo.equals(""))
             ivAppLogo.setVisibility(View.GONE);
         else {
 //            Log.e(TAG, "---------------- else --------");
             ivAppLogo.setVisibility(View.VISIBLE);
             Glide.with(mActivity).load(appLogo).into(ivAppLogo);
         }
-        if(!brnColorCode.equals(""))
+        if (!brnColorCode.equals(""))
             btnPromotion.setBackgroundColor(Color.parseColor(brnColorCode));
-        if(!btnText.equals(""))
+        if (!btnText.equals(""))
             btnPromotion.setText(btnText);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -184,5 +168,14 @@ public class AppPromoters {
             }
         });
         dialog.show();
+    }
+
+    public static boolean isAppInstalled(Activity mActivity, String packageName) {
+        try {
+            mActivity.getPackageManager().getApplicationInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

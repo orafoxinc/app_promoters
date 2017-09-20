@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new AppPromoters(this,getPackageName(),10);
+        new AppPromoters(this,"com.orafox.photostorymaker",10);
         // (this,package name,popup interval in seconds)
     }
 }
