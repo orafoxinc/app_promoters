@@ -65,7 +65,7 @@ public class AppPromoters {
             public void run() {
                 callApiForPromotion(packageName);
                 runnable = this;
-                Log.d(TAG, "---------------- this is response : " + popupInterval);
+//                Log.d(TAG, "---------------- this is response : " + popupInterval);
 //                h.postDelayed(runnable, popupInterval * 60 * 1000);
             }
         }, popupInterval * 1000);
@@ -80,7 +80,7 @@ public class AppPromoters {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
-                Log.d(TAG, "---------------- this is response : " + response);
+//                Log.d(TAG, "---------------- this is response : " + response);
                 try {
                     JSONObject mainObj = new JSONObject(response.toString());
 
