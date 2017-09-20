@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new AppPromoters(this,getPackageName(),1);
-        // (this,package name,popup interval in minutes)
+        new AppPromoters(this,getPackageName(),10);
+        // (this,package name,popup interval in seconds)
     }
 }
