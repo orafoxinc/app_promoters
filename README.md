@@ -22,7 +22,7 @@ Step 2. Add the dependency
 
 ```
 dependencies {
-        compile 'com.github.ervishu83:app_promoters:1.4'
+       compile 'com.github.ervishu83:app_promoters:1.6'
 }
 ```
 
@@ -34,9 +34,9 @@ Okay seems like you integrated the library in your project but how do you use it
 Load native library in your activity :
 
 ```
- new AppPromoters(this,getPackageName(),5);
+ new AppPromoters(this,getPackageName(),10);
  ```
  
 
-here, 5 is time interval in minute for dialog to appear.
+here, 10 is time interval in seconds for dialog to appear.
 
